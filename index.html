@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>小猫的悄悄话（背景音乐版 🎵）</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f8f9fa;
+  color: #4c4c4c;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  min-height: 100vh;
+  overflow: hidden;
+}
+h1 {
+  margin-top: 20px;
+  font-size: 32px;
+  color: #ff7676;
+  text-align: center;
+}
+#whisper-board {
+  width: 90%;
+  max-width: 600px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+textarea {
+  width: 100%;
+  height: 80px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  resize: none;
+  margin-bottom: 10px;
+}
+button {
+  background: #ff7676;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+button:hover {
+  background: #e65353;
+}
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0;
+  max-height: 300px;
+  overflow: auto;
+  border-top: 1px solid #f0f0f0;
+}
+li {
+  margin-bottom: 10px;
+  padding: 10px 15px;
+  background: #f6f6f6;
+  border-radius: 8px;
+  font-size: 14px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+small {
+  display: block;
+  text-align: right;
+  color: #999;
+}
+
+.audio-controls {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 14px;
+}
+audio {
+  margin-top: 10px;
+  width: 100%;
+  max-width: 300px;
+}
+</style>
+</head>
+<body>
+
+<h1>🎵 小猫的悄悄花园 · 带音乐</h1>
+
+<div id="whisper-board">
+  <textarea id="whisper-input" placeholder="悄悄对GPT先生说点啥？"></textarea>
+  <button onclick="addWhisper()">喵出悄悄话</button>
+  <button onclick="clearWhispers()">清空喵喵留言</button>
+
+  <ul id="whisper-list"></ul>
+</div>
+
+<div class="audio-controls">
+  <p>🌙 氛围音乐：可随时暂停或播放</p>
+  <audio id="bg-music" loop autoplay controls>
+    <source src="https://www.bensound.com/bensound-music/bensound-memories.mp3" type="audio/mpeg">
+    您的浏览器不支持音频播放。
+  </audio>
+</div>
+
+<script>
+const whispers = [];
+
+function addWhisper() {
+  const input = document.getElementById("whisper-input");
+  const whisper = input.value.trim();
+  if (whisper) {
+    whispers.push({
+      text: whisper,
+      time: new Date().toLocaleString()
+    });
+    input.value = "";
+    renderWhispers();
+  }
+}
+
+function renderWhispers() {
+  const whisperList = document.getElementById("whisper-list");
+  whisperList.innerHTML = whispers.map(w => `
+    <li>
+      ${w.text}
+      <small>${w.time}</small>
+    </li>
+  `).join("");
+}
+
+function clearWhispers() {
+  if (confirm("确定要清空悄悄话？")) {
+    whispers.length = 0;
+    renderWhispers();
+  }
+}
+</script>
+
+</body>
+</html>
